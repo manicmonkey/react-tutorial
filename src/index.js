@@ -13,34 +13,31 @@ function Square({value, onClick}) {
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
-    return (
-      <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    );
+  render() {
+    const numberOfColumns = 3;
+    const rows = [];
+    for (let row = 1; row <= 3; row++) {
+      rows.push(this.renderRow(row, numberOfColumns));
+    }
+    return <div>{rows}</div>;
   }
 
-  render() {
+  renderRow(row, numberOfColumns) {
+    const rows = [];
+    const rowStartIdx = row * numberOfColumns - numberOfColumns; //start row 1 at 0, row 2 at 3, row 3 at 6, etc
+    for (let squareIdx = rowStartIdx; squareIdx < rowStartIdx + numberOfColumns; squareIdx++) {
+      rows.push(this.renderSquare(squareIdx))
+    }
+    return <div key={row} className="board-row">{rows}</div>
+  }
+
+  renderSquare(index) {
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
+      <Square
+        key={index}
+        value={this.props.squares[index]}
+        onClick={() => this.props.onClick(index)}
+      />
     );
   }
 }
@@ -99,7 +96,8 @@ class Game extends React.Component {
       const isCurrentStep = move === this.state.stepNumber;
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)} style={{fontWeight: isCurrentStep ? 'bold' : 'normal'}}>{desc}</button>
+          <button onClick={() => this.jumpTo(move)}
+                  style={{fontWeight: isCurrentStep ? 'bold' : 'normal'}}>{desc}</button>
         </li>
       );
     });
@@ -114,8 +112,8 @@ class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <Board
-          squares={current.squares}
-          onClick={(i) => this.handleClick(i)}/>
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}/>
         </div>
         <div className="game-info">
           <div>{status}</div>
