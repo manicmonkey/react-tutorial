@@ -90,11 +90,11 @@ function Game() {
 
     squares[index] = xIsNext ? 'X' : 'O';
 
-    setHistory(parentHistory.concat([{
+    setHistory([...parentHistory, {
       squares: squares,
       moveRow: Math.floor(index / 3) + 1,
       moveCol: index % 3 + 1
-    }]));
+    }]);
     setStepNumber(parentHistory.length);
     setXIsNext(!xIsNext);
   }
