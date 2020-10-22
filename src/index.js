@@ -36,7 +36,7 @@ class Board extends React.Component {
       <Square
         key={index}
         value={this.props.squares[index]}
-        className={this.props.winningSquares && this.props.winningSquares.includes(index) ? 'winner' : ''}
+        className={this.props.winningSquares?.includes(index) ? 'winner' : ''}
         onClick={() => this.props.onClick(index)}
       />
     );
