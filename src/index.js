@@ -120,8 +120,10 @@ class Game extends React.Component {
     let status;
     if (winningSquares)
       status = 'Winner: ' + current.squares[winningSquares[0]];
-    else
+    else if (current.squares.includes(null))
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    else
+      status = "It's a draw!";
 
     return (
       <div className="game">
