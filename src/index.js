@@ -34,11 +34,12 @@ function Board({squares, winningSquares, onClick}) {
     );
   }
 
+  const numberOfRows = 3;
   const numberOfColumns = 3;
 
   return (
     <div>
-      {range(1, 4).map(value => renderRow(value, numberOfColumns))}
+      {range(0, numberOfRows).map(value => renderRow(value + 1, numberOfColumns))}
     </div>
   );
 }
