@@ -15,12 +15,12 @@ function Square({value, onClick, className}) {
 function Board({squares, winningSquares, onClick}) {
 
   const renderRow = (row, numberOfColumns) => {
-    const rows = [];
     const rowStartIdx = row * numberOfColumns - numberOfColumns; //start row 1 at 0, row 2 at 3, row 3 at 6, etc
-    for (let squareIdx = rowStartIdx; squareIdx < rowStartIdx + numberOfColumns; squareIdx++) {
-      rows.push(renderSquare(squareIdx))
-    }
-    return <div key={row} className="board-row">{rows}</div>
+    return (
+      <div key={row} className="board-row">
+        {range(rowStartIdx, rowStartIdx + numberOfColumns).map(value => renderSquare(value))}
+      </div>
+    );
   }
 
   const renderSquare = (index) => {
@@ -35,12 +35,12 @@ function Board({squares, winningSquares, onClick}) {
   }
 
   const numberOfColumns = 3;
-  const rows = [];
-  for (let row = 1; row <= 3; row++) {
-    rows.push(renderRow(row, numberOfColumns));
-  }
-  return <div>{rows}</div>;
 
+  return (
+    <div>
+      {range(1, 4).map(value => renderRow(value, numberOfColumns))}
+    </div>
+  );
 }
 
 function Moves({history, stepNumber, jumpTo}) {
@@ -170,4 +170,10 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function range(start, end) {
+  return Array(end - start)
+    .fill(null)
+    .map((value, index) => index + start)
 }
