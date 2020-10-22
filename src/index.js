@@ -12,35 +12,35 @@ function Square({value, onClick, className}) {
   );
 }
 
-class Board extends React.Component {
-  render() {
-    const numberOfColumns = 3;
-    const rows = [];
-    for (let row = 1; row <= 3; row++) {
-      rows.push(this.renderRow(row, numberOfColumns));
-    }
-    return <div>{rows}</div>;
-  }
+function Board({squares, winningSquares, onClick}) {
 
-  renderRow(row, numberOfColumns) {
+  const renderRow = (row, numberOfColumns) => {
     const rows = [];
     const rowStartIdx = row * numberOfColumns - numberOfColumns; //start row 1 at 0, row 2 at 3, row 3 at 6, etc
     for (let squareIdx = rowStartIdx; squareIdx < rowStartIdx + numberOfColumns; squareIdx++) {
-      rows.push(this.renderSquare(squareIdx))
+      rows.push(renderSquare(squareIdx))
     }
     return <div key={row} className="board-row">{rows}</div>
   }
 
-  renderSquare(index) {
+  const renderSquare = (index) => {
     return (
       <Square
         key={index}
-        value={this.props.squares[index]}
-        className={this.props.winningSquares?.includes(index) ? 'winner' : ''}
-        onClick={() => this.props.onClick(index)}
+        value={squares[index]}
+        className={winningSquares?.includes(index) ? 'winner' : ''}
+        onClick={() => onClick(index)}
       />
     );
   }
+
+  const numberOfColumns = 3;
+  const rows = [];
+  for (let row = 1; row <= 3; row++) {
+    rows.push(renderRow(row, numberOfColumns));
+  }
+  return <div>{rows}</div>;
+
 }
 
 function Moves({history, stepNumber, jumpTo}) {
@@ -64,7 +64,7 @@ function Moves({history, stepNumber, jumpTo}) {
 
   return (
     <div>
-      Reverse moves: <input type="checkbox" onClick={() => setShowMovesAsc(!showMovesAsc)} value={showMovesAsc} />
+      Reverse moves: <input type="checkbox" onClick={() => setShowMovesAsc(!showMovesAsc)} value={showMovesAsc}/>
       <ol>{moves}</ol>
     </div>
   );
